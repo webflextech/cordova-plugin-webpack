@@ -4,7 +4,7 @@ import fs from 'fs';
 import glob from 'glob';
 import argvParse from 'yargs-parser';
 import webpack from 'webpack';
-import WebpackInjectPlugin from 'webpack-inject-plugin';
+// import WebpackInjectPlugin from 'webpack-inject-plugin';
 import WebpackDevServer from 'webpack-dev-server';
 import express from 'express';
 import createHTML from 'create-html';
@@ -55,15 +55,15 @@ module.exports = async (ctx: any) => {
     mode: 'development',
     plugins: [
       ...(customWebpackConfig.plugins || []),
-      new WebpackInjectPlugin(() =>
-        fs.readFileSync(path.join(__dirname, 'www/injectCSP.js'), 'utf8'),
-      ),
-      new WebpackInjectPlugin(() =>
-        fs.readFileSync(
-          path.join(__dirname, 'www/injectCordovaScript.js'),
-          'utf8',
-        ),
-      ),
+      // new WebpackInjectPlugin(() =>
+      //   fs.readFileSync(path.join(__dirname, 'www/injectCSP.js'), 'utf8'),
+      // ),
+      // new WebpackInjectPlugin(() =>
+      //   fs.readFileSync(
+      //     path.join(__dirname, 'www/injectCordovaScript.js'),
+      //     'utf8',
+      //   ),
+      // ),
     ],
   };
   const devServerConfig: WebpackDevServer.Configuration = {
