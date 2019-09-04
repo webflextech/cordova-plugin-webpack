@@ -3,19 +3,19 @@ import argvParse from 'yargs-parser';
 import webpack from 'webpack';
 import * as webpackHelpers from './utils/webpackHelpers';
 
-module.exports = async (ctx: any) => {
+module.exports = (ctx: any) => {
   const platforms = ['browser', 'android', 'ios'] as const;
   if (!platforms.some(platform => ctx.opts.platforms.includes(platform))) {
-    return;
+    return Promise.resolve();
   }
 
   if (!ctx.opts.options || !ctx.opts.options.argv) {
-    return;
+    return Promise.resolve();
   }
 
   const argv = argvParse(ctx.opts.options.argv.join(' '));
   if (argv.livereload || argv.l) {
-    return;
+    return Promise.resolve();
   }
 
   const customWebpackConfig: webpack.Configuration = webpackHelpers.webpackConfig(
@@ -24,15 +24,19 @@ module.exports = async (ctx: any) => {
   );
   const compiler = webpack(customWebpackConfig);
 
-  compiler.run((err, stats) => {
-    if (err) {
-      throw err;
-    }
-    console.log(
-      stats.toString({
-        chunks: false,
-        colors: true,
-      }),
-    );
+  return new Promise((resolve, reject) => {
+    compiler.run((err, stats) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      console.log(
+        stats.toString({
+          chunks: false,
+          colors: true,
+        }),
+      );
+      resolve();
+    });
   });
 };

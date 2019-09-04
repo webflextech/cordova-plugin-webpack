@@ -23,6 +23,7 @@ module.exports = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
     'no-useless-constructor': 'off',
+    'no-console': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
   },
   settings: {
